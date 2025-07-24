@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --app-bg: #0B0470;
+  --sidebar-header-bg: #4100B4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif; /* Apply Poppins directly */
+}
+
+/* App.css or index.css */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1D2461;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    cursor: pointer;
+}
+/* src/index.css or src/styles.css */
+.swal-confirm-button {
+  opacity: 1 !important; /* Ensure button is always visible */
+  visibility: visible !important; /* Prevent any visibility toggling */
+  background-color: #6F1AFF !important; /* Match your app's theme */
+  color: white !important;
+  border-radius: 10px !important;
+  font-size: 16px !important;
+  padding: 10px 24px !important;
+  transition: none !important; /* Remove any hover transitions */
+}
+
+.swal-confirm-button:hover {
+  background-color: #5e0ed8 !important; /* Slightly darker purple for hover (optional) */
+}
