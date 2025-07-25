@@ -195,6 +195,50 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
+    getPackage: async () => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}static/getPackage`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getPackage API response:', response.data); // Debug log
+
+      // Transform API response to match component's expected structure
+      const transformedPlans = Array.isArray(response.data.data)
+        ? response.data.data.map(plan => ({
+            title: plan.name.charAt(0).toUpperCase() + plan.name.slice(1), // Capitalize name (e.g., "starter" -> "Starter")
+            price: plan.isFree ? "$0" : `$${plan.price}`, // Format price as string
+            description: plan.description.slice(0, 50) + "...", // Truncate description
+            features: [], // Empty array since API doesn't provide features
+            mostPopular: false, // False since API doesn't indicate most popular
+          }))
+        : [];
+
+      return transformedPlans;
+    } catch (error) {
+      console.error('getPackage API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  createPackage: async (packageData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.post(`${API_URL}static/createPackage`, packageData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('createPackage API response:', response.data); // Debug log
+      return response.data;
+    } catch (error) {
+      console.error('createPackage API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
 };
 
 export default apiService;
