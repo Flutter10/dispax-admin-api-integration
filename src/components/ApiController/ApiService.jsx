@@ -298,6 +298,18 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
+  getAllFaq: async () => {
+    try {
+      const response = await axios.get(`${API_URL}static/faq/All`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.data.data; // Assuming the FAQ data is in response.data.data
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
 };
 
 export default apiService;
