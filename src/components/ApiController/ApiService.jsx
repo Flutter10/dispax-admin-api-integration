@@ -310,6 +310,118 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
+  addCompany: async (companyData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.post(`${API_URL}admin/addCompany`, companyData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('addCompany API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('addCompany API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  // getCompany: async () => {
+  //   try {
+  //     const authToken = localStorage.getItem('authToken');
+  //     const response = await axios.get(`${API_URL}admin/getCompany`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${authToken}`,
+  //       },
+  //     });
+  //     console.log('getCompany API response:', response.data);
+  //     return response.data.data; // Assuming the company data is in response.data.data
+  //   } catch (error) {
+  //     console.error('getCompany API error:', error.response?.data || error.message);
+  //     throw error.response?.data || error.message;
+  //   }
+  // },
+    getCompany: async () => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}admin/getCompany`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getCompany API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getCompany API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  updateCompany: async (id, companyData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.put(`${API_URL}admin/updateCompany/${id}`, companyData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('updateCompany API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('updateCompany API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  removeCompany: async (id) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.delete(`${API_URL}admin/removeCompany/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('removeCompany API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('removeCompany API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  getCompanyById: async (id) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}admin/getCompanyById/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getCompanyById API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getCompanyById API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+   getCompanyLogActivity: async (id) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}admin/getCompanyLogActivity/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getCompanyLogActivity API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getCompanyLogActivity API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
 };
 
 export default apiService;
