@@ -775,7 +775,7 @@ const DispatchingCompanyTable = () => {
       {createRolePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
           <div
-            className="text-white p-6 rounded-lg relative flex flex-col gap-[10px] overflow-y-auto custom-scrollbar"
+            className="text-white p-6 rounded-lg relative flex flex-col gap-[10px] overflow-y-auto hide-scrollbar custom-scrollbar"
             style={{
               width: '594px',
               maxHeight: '80vh',
@@ -854,7 +854,7 @@ const DispatchingCompanyTable = () => {
       {editPopup.open && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
           <div
-            className="text-white p-6 rounded-lg relative flex flex-col gap-[10px] overflow-y-auto custom-scrollbar"
+            className="text-white p-6 rounded-lg relative flex flex-col gap-[10px] hide-scrollbar overflow-y-auto custom-scrollbar"
             style={{
               width: '594px',
               maxHeight: '80vh',
