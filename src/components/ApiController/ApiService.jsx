@@ -195,34 +195,7 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
-  //   getPackage: async () => {
-  //   try {
-  //     const authToken = localStorage.getItem('authToken');
-  //     const response = await axios.get(`${API_URL}static/getPackage`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer ${authToken}`,
-  //       },
-  //     });
-  //     console.log('getPackage API response:', response.data); // Debug log
 
-  //     // Transform API response to match component's expected structure
-  //     const transformedPlans = Array.isArray(response.data.data)
-  //       ? response.data.data.map(plan => ({
-  //           title: plan.name.charAt(0).toUpperCase() + plan.name.slice(1), // Capitalize name (e.g., "starter" -> "Starter")
-  //           price: plan.isFree ? "$0" : `$${plan.price}`, // Format price as string
-  //           description: plan.description.slice(0, 50) + "...", // Truncate description
-  //           features: [], // Empty array since API doesn't provide features
-  //           mostPopular: false, // False since API doesn't indicate most popular
-  //         }))
-  //       : [];
-
-  //     return transformedPlans;
-  //   } catch (error) {
-  //     console.error('getPackage API error:', error.response?.data || error.message);
-  //     throw error.response?.data || error.message;
-  //   }
-  // },
   getPackage: async () => {
     try {
       const authToken = localStorage.getItem('authToken');
@@ -295,6 +268,22 @@ const apiService = {
       return response.data;
     } catch (error) {
       console.error('updatePackage API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  deletePackage: async (packageId) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.delete(`${API_URL}static/package/${packageId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('deletePackage API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('deletePackage API error:', error.response?.data || error.message);
       throw error.response?.data || error.message;
     }
   },
@@ -419,6 +408,122 @@ const apiService = {
       return response.data.data;
     } catch (error) {
       console.error('getCompanyLogActivity API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  addPricingAndCommission: async (pricingData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.post(`${API_URL}PricingAndCommissionManagement/add`, pricingData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('addPricingAndCommission API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('addPricingAndCommission API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  getAllPricingAndCommission: async () => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}PricingAndCommissionManagement/All`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getAllPricingAndCommission API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getAllPricingAndCommission API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  getPricingAndCommissionById: async (id) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}PricingAndCommissionManagement/getById/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getPricingAndCommissionById API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getPricingAndCommissionById API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  updatePricingAndCommission: async (id, pricingData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.put(`${API_URL}PricingAndCommissionManagement/update/${id}`, pricingData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('updatePricingAndCommission API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('updatePricingAndCommission API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  addCustomBranding: async (brandingData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const formData = new FormData();
+      formData.append('companyName', brandingData.companyName);
+      formData.append('brandName', brandingData.brandName);
+      formData.append('primaryColor', brandingData.primaryColor);
+      formData.append('secondaryColor', brandingData.secondaryColor);
+      formData.append('subDomain', brandingData.subDomain);
+      formData.append('typography', brandingData.typography);
+      if (brandingData.image) {
+        formData.append('image', brandingData.image);
+      }
+
+      const response = await axios.post(`${API_URL}CustomBrandingForCompany/add`, formData, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('addCustomBranding API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('addCustomBranding API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+    getAllCustomBranding: async () => {
+    try {
+      const response = await axios.get(`${API_URL}CustomBrandingForCompany/All`);
+      return response.data.data.docs; // Return the docs array
+    } catch (error) {
+      console.error('Error fetching custom branding data:', error);
+      throw new Error(error.response?.data?.message || 'Failed to fetch custom branding data');
+    }
+  },
+  getNotificationPrivacy: async () => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}getNotificationPrivacy`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getNotificationPrivacy API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getNotificationPrivacy API error:', error.response?.data || error.message);
       throw error.response?.data || error.message;
     }
   },

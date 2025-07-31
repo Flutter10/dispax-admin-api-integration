@@ -23,14 +23,14 @@ const Customization = () => {
       {/* MultiAdmin1 Table */}
       <div className="mt-6">
         <CustomBranding />
-        <div className="flex justify-between items-center mt-4">
+        {/* <div className="flex justify-between items-center mt-4">
           <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
           <CustomPagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* MultiAdmin2 Table */}
