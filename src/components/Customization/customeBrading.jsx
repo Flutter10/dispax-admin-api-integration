@@ -353,7 +353,7 @@
 // export default CustomBranding;
 import React, { useState, useRef, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import apiService from '../ApiController/apiService'; // Adjust path as needed
+import apiService from '../ApiController/ApiService';
 
 const CustomBranding = () => {
   const [showDropdown, setShowDropdown] = useState(null);

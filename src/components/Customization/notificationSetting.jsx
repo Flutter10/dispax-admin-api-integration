@@ -159,7 +159,7 @@
 // export default NotificationSetting;
 import React, { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
-import apiService from '../ApiController/apiService'; // Adjust path as needed
+import apiService from "../ApiController/ApiService";
 
 const notificationSettingsData = [
   {
