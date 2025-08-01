@@ -159,7 +159,21 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
-   createInvoices: async (invoiceData) => {
+  //  createInvoices: async (invoiceData) => {
+  //   try {
+  //     const authToken = localStorage.getItem('authToken');
+  //     const response = await axios.post(`${API_URL}Admin/createInvoices`, invoiceData, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${authToken}`,
+  //       },
+  //     });
+  //     return response.data;
+  //   } catch (error) {
+  //     throw error.response?.data || error.message;
+  //   }
+  // },
+  createInvoices: async (invoiceData) => {
     try {
       const authToken = localStorage.getItem('authToken');
       const response = await axios.post(`${API_URL}Admin/createInvoices`, invoiceData, {
@@ -170,6 +184,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
+      console.error('API Error (createInvoices):', error.response?.data || error.message);
       throw error.response?.data || error.message;
     }
   },
@@ -524,6 +539,106 @@ const apiService = {
       return response.data.data;
     } catch (error) {
       console.error('getNotificationPrivacy API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  addRoleAccess: async (roleData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.post(`${API_URL}RoleAccess/add`, roleData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('addRoleAccess API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('addRoleAccess API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  getAllRoleAccess: async () => {
+    try {
+      const response = await axios.get(`${API_URL}RoleAccess/All`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('getAllRoleAccess API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getAllRoleAccess API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  getRoleById: async (roleId) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}RoleAccess/getById/${roleId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getRoleById API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getRoleById API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  updateRole: async (roleId, roleData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.put(`${API_URL}RoleAccess/update/${roleId}`, roleData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('updateRole API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('updateRole API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  deleteRole: async (roleId) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.delete(`${API_URL}RoleAccess/remove/${roleId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('deleteRole API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('deleteRole API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  getAllContainerRoutesAndMapping: async (containerNumber = '', page = 1, limit = 10, origin = '', status = '') => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const queryParams = new URLSearchParams({
+        containerNumber,
+        page,
+        limit,
+        ...(origin && { origin }),
+        ...(status && { status }),
+      });
+      const response = await axios.get(`${API_URL}Admin/getAllContainerRoutesAndMapping?${queryParams}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      return response.data.data;
+    } catch (error) {
+      console.error('API Error (getAllContainerRoutesAndMapping):', error.response?.data || error.message);
       throw error.response?.data || error.message;
     }
   },
