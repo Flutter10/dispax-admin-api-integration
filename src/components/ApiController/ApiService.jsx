@@ -642,6 +642,50 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
+  getAllVehicleHealthAndMaintenance: async (page = 1, limit = 10, fromDate = '', toDate = '') => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const queryParams = new URLSearchParams({
+        page,
+        limit,
+        ...(fromDate && { fromDate }),
+        ...(toDate && { toDate }),
+      });
+      const response = await axios.get(`${API_URL}admin/getAllVehicleHealthAndMaintenance?${queryParams}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getAllVehicleHealthAndMaintenance API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getAllVehicleHealthAndMaintenance API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  getAllTruckGpsAndRoute: async (page = 1, limit = 10, fromDate = '', toDate = '') => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const queryParams = new URLSearchParams({
+        page,
+        limit,
+        ...(fromDate && { fromDate }),
+        ...(toDate && { toDate }),
+      });
+      const response = await axios.get(`${API_URL}admin/getAllTruckGpsAndRoute?${queryParams}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getAllTruckGpsAndRoute API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getAllTruckGpsAndRoute API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
 };
 
 export default apiService;
