@@ -686,6 +686,58 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
+  updateProfile: async (profileData) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.put(`${API_URL}admin/update`, profileData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('updateProfile API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('API Error (updateProfile):', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  getAllTruck: async (page = 1, limit = 10) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const queryParams = new URLSearchParams({
+        page,
+        limit,
+      });
+      const response = await axios.get(`${API_URL}admin/getAllTruck?${queryParams}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getAllTruck API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('API Error (getAllTruck):', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+  addTruck: async (truckData) => {
+  try {
+    const authToken = localStorage.getItem('authToken');
+    const response = await axios.post(`${API_URL}admin/addTruck`, truckData, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`,
+      },
+    });
+    console.log('addTruck API response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('API Error (addTruck):', error.response?.data || error.message);
+    throw error.response?.data || error.message;
+  }
+},
 };
 
 export default apiService;

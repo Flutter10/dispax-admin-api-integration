@@ -5,7 +5,7 @@ import ProfileDropdown from './ProfileDropdown';
 
 const Header = () => {
   return (
-    <div className="fixed top-0 left-[248px] z-10 right-0 h-[98px] bg-[#4100B4] px-8 flex items-center justify-between">
+    <div  className="fixed top-0 left-[248px] z-10 right-0 h-[98px] bg-[#4100B4] px-8 flex items-center justify-between">
       
       {/* Search */}
       <div className="relative w-[388px] h-[38px]">
