@@ -12,14 +12,14 @@ const OrderShipping = () => {
     <div className="text-white flex flex-col overflow-hidden mb-5">
       <div className="">
         <ManageAllShipments />
-        <div className="flex justify-between items-center mt-4">
+        {/* <div className="flex justify-between items-center mt-4">
           <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
           <CustomPagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* 2.container route */}
@@ -28,7 +28,7 @@ const OrderShipping = () => {
       </div>
 
       {/* 3 */}
-      <div className="">
+      {/* <div className="">
         <ShipmentStatus />
         <div className="flex justify-between items-center mt-4">
           <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
@@ -38,7 +38,7 @@ const OrderShipping = () => {
             onPageChange={setCurrentPage}
           />
         </div>
-      </div>
+      </div> */}
 
       {/* 4 */}
       <div className="">

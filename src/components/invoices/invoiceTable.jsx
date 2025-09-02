@@ -286,36 +286,49 @@ const Invoices = () => {
     const [invoices, setInvoices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 10,
+        totalPages: 1,
+        totalDocs: 0,
+    });
+
+    const fetchInvoices = async (page = 1) => {
+        try {
+            setLoading(true);
+            const data = await apiService.getAllInvoices(page, pagination.limit);
+            console.log('API Response (invoices):', data);
+            setInvoices(data.docs.map(item => ({
+                roleName: item.invoiceNumber || '#INV-852164',
+                description: item.description || item.billTo || 'Bluedart Logistics',
+                assignedUser: item.invoiceDate ? format(new Date(item.invoiceDate), 'dd/MM/yyyy') : item.issueDate ? format(new Date(item.issueDate), 'dd/MM/yyyy') : '10/04/2025',
+                permissionSummary: item.dueDate ? format(new Date(item.dueDate), 'dd/MM/yyyy') : '15/04/2025',
+                createdOn: item.paymentStatus || 'Pending',
+                Amount: item.total ? `$${item.total}` : '$2134',
+            })));
+            setPagination({
+                page: data.page,
+                limit: data.limit,
+                totalPages: data.totalPages,
+                totalDocs: data.totalDocs,
+            });
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching invoices:', err);
+            setError(err.message);
+            setLoading(false);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to fetch invoices: ' + err.message,
+                confirmButtonColor: '#6F1AFF',
+            });
+        }
+    };
 
     useEffect(() => {
-        const fetchInvoices = async () => {
-            try {
-                setLoading(true);
-                const data = await apiService.getAllInvoices();
-                console.log('API Response (invoices):', data);
-                setInvoices(data.docs.map(item => ({
-                    roleName: item.invoiceNumber || '#INV-852164',
-                    description: item.description || 'Bluedart Logistics',
-                    assignedUser: item.invoiceDate ? format(new Date(item.invoiceDate), 'dd/MM/yyyy') : '10/04/2025',
-                    permissionSummary: item.dueDate ? format(new Date(item.dueDate), 'dd/MM/yyyy') : '15/04/2025',
-                    createdOn: item.paymentStatus || 'Pending',
-                    Amount: item.total ? `$${item.total}` : '$2134',
-                })));
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching invoices:', err);
-                setError(err.message);
-                setLoading(false);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Failed to fetch invoices: ' + err.message,
-                    confirmButtonColor: '#6F1AFF',
-                });
-            }
-        };
-        fetchInvoices();
-    }, []);
+        fetchInvoices(pagination.page);
+    }, [pagination.page]);
 
     const openCreateRolePopup = () => {
         console.log('Opening Create Invoice popup');
@@ -364,15 +377,7 @@ const Invoices = () => {
                 confirmButtonColor: '#6F1AFF',
             });
             closeCreateRolePopup();
-            const data = await apiService.getAllInvoices();
-            setInvoices(data.docs.map(item => ({
-                roleName: item.invoiceNumber || '#INV-852164',
-                description: item.description || 'Bluedart Logistics',
-                assignedUser: item.invoiceDate ? format(new Date(item.invoiceDate), 'dd/MM/yyyy') : '10/04/2025',
-                permissionSummary: item.dueDate ? format(new Date(item.dueDate), 'dd/MM/yyyy') : '15/04/2025',
-                createdOn: item.paymentStatus || 'Pending',
-                Amount: item.total ? `$${item.total}` : '$2134',
-            })));
+            fetchInvoices(pagination.page); // Refresh with current page
         } catch (error) {
             console.error('Error creating invoice:', error.response || error);
             const errorMessage = error.response?.data?.message || error.message || 'Unknown error';
@@ -382,6 +387,12 @@ const Invoices = () => {
                 text: `Failed to create invoice: ${errorMessage}`,
                 confirmButtonColor: '#6F1AFF',
             });
+        }
+    };
+
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= pagination.totalPages) {
+            setPagination((prev) => ({ ...prev, page: newPage }));
         }
     };
 
@@ -435,6 +446,38 @@ const Invoices = () => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-between items-center mt-4 text-white">
+                <div>
+                    Showing {invoices.length} of {pagination.totalDocs} invoices
+                </div>
+                <div className="flex gap-2">
+                    <button
+                        className={`px-4 py-2 rounded-lg ${
+                            pagination.page === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#6F1AFF]'
+                        }`}
+                        onClick={() => handlePageChange(pagination.page - 1)}
+                        disabled={pagination.page === 1}
+                    >
+                        Previous
+                    </button>
+                    <span className="px-4 py-2">
+                        Page {pagination.page} of {pagination.totalPages}
+                    </span>
+                    <button
+                        className={`px-4 py-2 rounded-lg ${
+                            pagination.page === pagination.totalPages
+                                ? 'bg-gray-600 cursor-not-allowed'
+                                : 'bg-[#6F1AFF]'
+                        }`}
+                        onClick={() => handlePageChange(pagination.page + 1)}
+                        disabled={pagination.page === pagination.totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
 
             {createRolePopup && (

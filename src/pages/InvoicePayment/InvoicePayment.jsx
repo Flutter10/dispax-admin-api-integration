@@ -11,7 +11,7 @@ const InvoicePayment = () => {
   return (
     <div className="text-white flex flex-col overflow-hidden mb-5">
       <Invoices />
-      <div className="flex justify-between items-center mb-4">
+      {/* <div className="flex justify-between items-center mb-4">
         <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
         <CustomPagination
           currentPage={currentPage}
@@ -21,7 +21,7 @@ const InvoicePayment = () => {
       </div>
       <AutomatedPaymentCancellation />
       <SubscriptionRemainderNotification />
-      <DownloadInvoiceReportForm />
+      <DownloadInvoiceReportForm /> */}
     </div>
   )
 }

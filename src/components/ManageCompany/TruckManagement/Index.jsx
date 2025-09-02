@@ -19,11 +19,11 @@ const options = [
     title: 'Driver Details',
     value: 'Verification',
   },
-  {
-    type: 'performance',
-    title: 'Performance',
-    value: 'Drivers',
-  },
+  // {
+  //   type: 'performance',
+  //   title: 'Performance',
+  //   value: 'Drivers',
+  // },
 ];
 
 const ArrowIcon = () => (
@@ -121,16 +121,16 @@ const TruckManagement = () => {
       {view === 'driver-details' &&
         <div className="">
           <VerificationDetailsTable />
-          <div className="flex justify-between items-center mt-4">
+          {/* <div className="flex justify-between items-center mt-4">
             <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
             <CustomPagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage} />
-          </div>
+          </div> */}
         </div>
       }
-      {view === 'performance' && <Performance />}
+      {/* {view === 'performance' && <Performance />} */}
     </div>
   );
 };

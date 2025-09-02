@@ -409,7 +409,7 @@ const Dashboard = () => {
 
         <div
           className="bg-[linear-gradient(167.8deg,_#4100B4_0.5%,_#1C004E_99.5%)] border border-[#1C1889] rounded-lg w-full h-[146px] flex items-center justify-between px-5"
-          onClick={() => navigate('/dashboard/active-drivers')}
+          onClick={() => navigate('/dashboard/active-trucks')}
         >
           <div>
             <h3 className="text-[20px] font-medium text-[#BFBFBF] mb-1">Active Drivers</h3>

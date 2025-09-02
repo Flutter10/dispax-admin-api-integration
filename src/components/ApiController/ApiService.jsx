@@ -3,6 +3,25 @@ import axios from 'axios';
 const API_URL = 'https://dispax-backend.vercel.app/api/v1/';
 
 const apiService = {
+   // Fetch all drivers
+  getAllDriver: async (page = 1, limit = 10) => {
+    try {
+      const queryParams = new URLSearchParams({
+        page,
+        limit,
+      });
+      const response = await axios.get(`${API_URL}Admin/getAllDriver?${queryParams}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('getAllDriver API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('API Error (getAllDriver):', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
   register: async (userData) => {
     try {
       const response = await axios.post(`${API_URL}admin/registration`, userData, {
@@ -737,6 +756,8 @@ const apiService = {
     console.error('API Error (addTruck):', error.response?.data || error.message);
     throw error.response?.data || error.message;
   }
+  
+  
 },
 };
 

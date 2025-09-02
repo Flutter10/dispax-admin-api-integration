@@ -649,7 +649,7 @@ const ManageAllShipments = () => {
                 <th className="px-5">Truck & Driver</th>
                 <th className="px-5">Status</th>
                 <th className="px-5">ETA</th>
-                <th className="px-5">Action</th>
+                {/* <th className="px-5">Action</th> */}
               </tr>
             </thead>
             <tbody>
@@ -676,7 +676,7 @@ const ManageAllShipments = () => {
                     </span>
                   </td>
                   <td className="px-5">{role.extimateDeliveryDate ? new Date(role.extimateDeliveryDate).toLocaleDateString() : role.dropOffDate ? new Date(role.dropOffDate).toLocaleDateString() : 'N/A'}</td>
-                  <td className="px-5 relative">
+                  {/* <td className="px-5 relative">
                     <img
                       src="/tableAction.svg"
                       alt="Action"
@@ -717,7 +717,7 @@ const ManageAllShipments = () => {
                         </div>
                       </div>
                     )}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

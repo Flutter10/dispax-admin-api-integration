@@ -14,14 +14,14 @@ const CompanyManagement = () => {
       <h2 className="text-[30px] leading-[45px] font-bold mb-4 text-white">Company Management</h2>
       <div className="mb-6">
         <DispatchingCompanyTable/>
-        <div className="flex justify-between items-center mt-4">
+        {/* <div className="flex justify-between items-center mt-4">
           <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
           <CustomPagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />
-        </div>
+        </div> */}
       </div>
       <Subscription/>
     </div>
