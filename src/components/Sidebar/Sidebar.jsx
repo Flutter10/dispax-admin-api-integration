@@ -8,11 +8,11 @@ const Sidebar = () => {
     { label: 'Manage Company', path: '/manage-company', icon: 'sidebaricons/managecompanysvg.svg', activeIcon: 'sidebaricons/activemanagecompany.svg' },
     { label: 'Order & Shipping', path: '/order-shipping', icon: 'sidebaricons/orderandshimpment.svg', activeIcon: 'sidebaricons/activeorderandshipment.svg' },
     { label: 'Invoice & Payment', path: '/invoice-payment', icon: 'sidebaricons/invoice.svg', activeIcon: 'sidebaricons/activeinvoice.svg' },
-    { label: 'Reports & Data', path: '/reports-data', icon: 'sidebaricons/reportsanddata.svg', activeIcon: 'sidebaricons/activeReports.svg' },
+    // { label: 'Reports & Data', path: '/reports-data', icon: 'sidebaricons/reportsanddata.svg', activeIcon: 'sidebaricons/activeReports.svg' },
     { label: 'Customization', path: '/customization', icon: 'sidebaricons/customization.svg', activeIcon: 'sidebaricons/activeCustomisation.svg' },
     { label: 'User & Role', path: '/user-role', icon: 'sidebaricons/userandrole.svg', activeIcon: 'sidebaricons/activeUserandRole.svg' },
     { label: 'Support', path: '/support', icon: 'sidebaricons/support.svg', activeIcon: 'sidebaricons/activeSupport.svg' },
-    { label: 'Security', path: '/security', icon: 'sidebaricons/security.svg', activeIcon: 'sidebaricons/activeSecurity.svg' }
+    // { label: 'Security', path: '/security', icon: 'sidebaricons/security.svg', activeIcon: 'sidebaricons/activeSecurity.svg' }
   ];
 
   return (

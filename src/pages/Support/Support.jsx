@@ -12,7 +12,7 @@ const Support = () => {
   return (
     <div>
       <div className=" text-white flex flex-col overflow-hidden  mb-5">
-        <p className="text-[#fff] font-bold py-3">Live Chat</p>
+        {/* <p className="text-[#fff] font-bold py-3">Live Chat</p>
         <div className="flex gap-3">
           <div className="bg-[#131060] w-[40%] rounded-[11px]">
             <Sidebar />
@@ -20,7 +20,7 @@ const Support = () => {
           <div className="bg-[#131060] w-full rounded-[11px]">
             <ChatArea />
           </div>
-        </div>
+        </div> */}
 
         {/* Active Ticket Table */}
         <div className="mt-6">

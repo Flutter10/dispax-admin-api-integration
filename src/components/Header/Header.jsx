@@ -44,7 +44,7 @@ const Header = () => {
     
 
       {/* Language Dropdown */}
-     <LanguageDropdown/>
+     {/* <LanguageDropdown/> */}
 
       {/* Profile */}
      <ProfileDropdown />
