@@ -739,12 +739,12 @@ const DispatchingCompanyTable = () => {
                         right: '20px',
                       }}
                     >
-                      <Link
+                      {/* <Link
                         to={`/manage-company/performance/${role.id}`}
                         className="px-4 py-2 cursor-pointer hover:bg-[#1A1850] border-b text-[16px] block"
                       >
                         Performance Analytics
-                      </Link>
+                      </Link> */}
                       <Link
                         to={`/manage-company/activity-logs/${role.id}`}
                         className="px-4 py-2 border-b cursor-pointer hover:bg-[#1A1850] text-[16px] block"

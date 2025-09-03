@@ -349,22 +349,7 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
-  // getCompany: async () => {
-  //   try {
-  //     const authToken = localStorage.getItem('authToken');
-  //     const response = await axios.get(`${API_URL}admin/getCompany`, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer ${authToken}`,
-  //       },
-  //     });
-  //     console.log('getCompany API response:', response.data);
-  //     return response.data.data; // Assuming the company data is in response.data.data
-  //   } catch (error) {
-  //     console.error('getCompany API error:', error.response?.data || error.message);
-  //     throw error.response?.data || error.message;
-  //   }
-  // },
+
     getCompany: async () => {
     try {
       const authToken = localStorage.getItem('authToken');

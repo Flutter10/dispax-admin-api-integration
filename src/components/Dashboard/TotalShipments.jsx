@@ -31,11 +31,11 @@ const TotalShipment = () => {
           <TotalShipmentsTable/>     
            <div className="flex justify-between items-center mt-4">
           <p className="text-sm text-white/70">Showing 6 out of 120 results</p>
-          <CustomPagination
+          {/* <CustomPagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
-          />
+          /> */}
         </div>
       </div>
     </div>

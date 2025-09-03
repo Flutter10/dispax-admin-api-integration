@@ -17,15 +17,13 @@ const UserRole = () => {
           <PermissionsTable/>
         </div>
 
-        {/* MultiAdmin1 Table */}
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <MultiAdmin1/>
         </div>
 
-        {/* MultiAdmin2 Table */}
         <div className="mt-6">
           <MultiAdmin2/>
-        </div>
+        </div> */}
       </div>
   )
 }
