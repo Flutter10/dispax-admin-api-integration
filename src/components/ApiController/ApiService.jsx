@@ -122,30 +122,60 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
-  getAllCompletedShipment: async () => {
+  // getAllCompletedShipment: async () => {
+  //   try {
+  //     const authToken = localStorage.getItem('authToken');
+  //     const response = await axios.get(`${API_URL}Admin/getAllCompletedShipment`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${authToken}`,
+  //       },
+  //     });
+  //     return response.data.data.docs; // Return only the docs array
+  //   } catch (error) {
+  //     throw error.response?.data || error.message;
+  //   }
+  // },
+  // getAllPendingShipment: async () => {
+  //   try {
+  //     const authToken = localStorage.getItem('authToken');
+  //     const response = await axios.get(`${API_URL}Admin/getAllPendingShipment`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${authToken}`,
+  //       },
+  //     });
+  //     return response.data.data.docs; // Return only the docs array
+  //   } catch (error) {
+  //     throw error.response?.data || error.message;
+  //   }
+  // },
+  getAllCompletedShipment: async (params) => {
     try {
-      const authToken = localStorage.getItem('authToken');
+      const authToken = localStorage.getItem("authToken");
       const response = await axios.get(`${API_URL}Admin/getAllCompletedShipment`, {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
         },
+        params, // Pass page and limit as query parameters
       });
-      return response.data.data.docs; // Return only the docs array
+      return response.data; // Return the full response object
     } catch (error) {
       throw error.response?.data || error.message;
     }
   },
-  getAllPendingShipment: async () => {
+  getAllPendingShipment: async (params) => {
     try {
-      const authToken = localStorage.getItem('authToken');
+      const authToken = localStorage.getItem("authToken");
       const response = await axios.get(`${API_URL}Admin/getAllPendingShipment`, {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
         },
+        params, // Pass page and limit as query parameters
       });
-      return response.data.data.docs; // Return only the docs array
+      return response.data; // Return the full response object
     } catch (error) {
       throw error.response?.data || error.message;
     }
@@ -350,7 +380,23 @@ const apiService = {
     }
   },
 
-    getCompany: async () => {
+  //   getCompany: async () => {
+  //   try {
+  //     const authToken = localStorage.getItem('authToken');
+  //     const response = await axios.get(`${API_URL}admin/getCompany`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${authToken}`,
+  //       },
+  //     });
+  //     console.log('getCompany API response:', response.data);
+  //     return response.data.data;
+  //   } catch (error) {
+  //     console.error('getCompany API error:', error.response?.data || error.message);
+  //     throw error.response?.data || error.message;
+  //   }
+  // },
+  getCompany: async (params = {}) => {
     try {
       const authToken = localStorage.getItem('authToken');
       const response = await axios.get(`${API_URL}admin/getCompany`, {
@@ -358,14 +404,18 @@ const apiService = {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authToken}`,
         },
+        params: {
+          page: params.page || 1,
+          ac: params.ac || undefined, // Include ac parameter if provided
+        },
       });
       console.log('getCompany API response:', response.data);
-      return response.data.data;
+      return response.data.data; // Returns { docs: [...], totalDocs: 30, ... }
     } catch (error) {
       console.error('getCompany API error:', error.response?.data || error.message);
       throw error.response?.data || error.message;
     }
-  },
+},
   updateCompany: async (id, companyData) => {
     try {
       const authToken = localStorage.getItem('authToken');

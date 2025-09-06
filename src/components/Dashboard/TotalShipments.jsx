@@ -24,19 +24,12 @@ const TotalShipment = () => {
         <h1 className="text-[22px] font-semibold leading-[33px] font-poppins">Total Shipments</h1>
       </div>
 
-    
+
 
       {/* Table + Pagination */}
       <div className="w-full">
-          <TotalShipmentsTable/>     
-           <div className="flex justify-between items-center mt-4">
-          <p className="text-sm text-white/70">Showing 6 out of 120 results</p>
-          {/* <CustomPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          /> */}
-        </div>
+        <TotalShipmentsTable />
+        
       </div>
     </div>
   );

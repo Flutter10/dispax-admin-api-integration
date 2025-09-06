@@ -387,6 +387,565 @@
 // };
 
 // export default TotalShipmentsTable;
+// import React, { useState, useEffect } from 'react';
+// import Swal from 'sweetalert2';
+// import apiService from '../ApiController/ApiService'; // Adjust path if needed
+
+// const OutlinedInput = ({ label, type, placeholder, value, onChange, required }) => {
+//   return (
+//     <div className="relative mb-6 w-full">
+//       <label className="absolute -top-2 left-3 px-1 text-sm text-white z-10 bg-[#080625]">
+//         {label}
+//       </label>
+//       <input
+//         type={type}
+//         value={value}
+//         onChange={onChange}
+//         placeholder={placeholder}
+//         required={required}
+//         className="w-full h-[64px] bg-transparent border border-[#858080] rounded-lg px-3 pt-4 pb-2 text-base text-white focus:outline-none focus:border-[#f2f2f2] placeholder:text-[#858080]"
+//       />
+//     </div>
+//   );
+// };
+
+// const OutlinedSelect = ({ label, options, value, onChange, required }) => {
+//   return (
+//     <div className="relative mb-6 w-full">
+//       <label className="absolute -top-2 left-3 px-1 text-sm text-white z-10 bg-[#080625]">
+//         {label}
+//       </label>
+//       <select
+//         value={value}
+//         onChange={onChange}
+//         required={required}
+//         className="w-full h-[64px] bg-transparent border border-[#858080] rounded-lg px-3 pt-4 pb-2 text-base text-white focus:outline-none focus:border-[#f2f2f2] placeholder:text-[#858080] appearance-none"
+//       >
+//         <option value="" disabled>Select {label}</option>
+//         {options.map((opt) => (
+//           <option key={opt.id || opt} value={opt.id || opt} className="text-black">
+//             {opt.title || opt}
+//           </option>
+//         ))}
+//       </select>
+//     </div>
+//   );
+// };
+
+// const TotalShipmentsTable = () => {
+//   const [showDropdown, setShowDropdown] = useState(null);
+//   const [createRolePopup, setCreateRolePopup] = useState(false);
+//   const [editPopup, setEditPopup] = useState({ open: false, role: null });
+//   const [packages, setPackages] = useState([]);
+//   const [companies, setCompanies] = useState([]);
+//   const [companyData, setCompanyData] = useState({
+//     mobileNumber: '',
+//     email: '',
+//     fullName: '',
+//     fleetSizeDriver: '',
+//     fleetSizeTruck: '',
+//     packageId: '',
+//   });
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true);
+//         setError(null);
+//         const [packageData, companyResponse] = await Promise.all([
+//           apiService.getPackage().catch((err) => {
+//             console.warn('getPackage API failed:', err);
+//             return [];
+//           }),
+//           apiService.getCompany(),
+//         ]);
+//         console.log('Fetched packages:', packageData);
+//         console.log('Fetched companies:', companyResponse);
+//         setPackages(packageData);
+
+//         const transformedCompanies = companyResponse.docs.map((company) => ({
+//           id: company._id,
+//           company: company.fullName || 'Unknown',
+//           totalShipment: company.totalShipment || 0,
+//           totalPendingShipment: company.totalPendingShipment || 0,
+//           totalInProcessShipment: company.totalInProcessShipment || 0,
+//           totalCompletedShipment: company.totalCompletedShipment || 0,
+//         }));
+//         setCompanies(transformedCompanies);
+//       } catch (error) {
+//         const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch data. Please try again.';
+//         setError(errorMessage);
+//         console.error('Error fetching data:', {
+//           message: error.message,
+//           status: error.response?.status,
+//           data: error.response?.data,
+//           stack: error.stack,
+//         });
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchData();
+//   }, []);
+
+//   const handleActionClick = (index) => {
+//     setShowDropdown((prev) => (prev === index ? null : index));
+//   };
+
+//   const openCreateRolePopup = () => {
+//     console.log('Opening Create Company popup');
+//     setCompanyData({
+//       mobileNumber: '',
+//       email: '',
+//       fullName: '',
+//       fleetSizeDriver: '',
+//       fleetSizeTruck: '',
+//       packageId: '',
+//     });
+//     setCreateRolePopup(true);
+//   };
+
+//   const closeCreateRolePopup = () => {
+//     console.log('Closing Create Company popup');
+//     setCreateRolePopup(false);
+//   };
+
+//   const handleCreateCompany = async () => {
+//     const { mobileNumber, email, fullName, fleetSizeDriver, fleetSizeTruck, packageId } = companyData;
+//     if (!mobileNumber || !email || !fullName || !fleetSizeDriver || !fleetSizeTruck || !packageId) {
+//       await Swal.fire({
+//         icon: 'error',
+//         title: 'Validation Error',
+//         text: 'All fields are required. Please fill in all fields.',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//       return;
+//     }
+
+//     try {
+//       const response = await apiService.addCompany(companyData);
+//       console.log('Company created:', response);
+//       await Swal.fire({
+//         icon: 'success',
+//         title: 'Success',
+//         text: 'Company added successfully!',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//       const companyResponse = await apiService.getCompany();
+//       const transformedCompanies = companyResponse.docs.map((company) => ({
+//         id: company._id,
+//         company: company.fullName || 'Unknown',
+//         totalShipment: company.totalShipment || 0,
+//         totalPendingShipment: company.totalPendingShipment || 0,
+//         totalInProcessShipment: company.totalInProcessShipment || 0,
+//         totalCompletedShipment: company.totalCompletedShipment || 0,
+//       }));
+//       setCompanies(transformedCompanies);
+//       closeCreateRolePopup();
+//     } catch (error) {
+//       console.error('Error creating company:', {
+//         message: error.message,
+//         status: error.response?.status,
+//         data: error.response?.data,
+//       });
+//       await Swal.fire({
+//         icon: 'error',
+//         title: 'Error',
+//         text: error.response?.data?.message || error.message || 'Failed to add company. Please try again.',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//     }
+//   };
+
+//   const handleDelete = async (roleId) => {
+//     try {
+//       await apiService.removeCompany(roleId);
+//       console.log('Company deleted:', roleId);
+//       await Swal.fire({
+//         icon: 'success',
+//         title: 'Success',
+//         text: 'Company deleted successfully!',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//       const companyResponse = await apiService.getCompany();
+//       const transformedCompanies = companyResponse.docs.map((company) => ({
+//         id: company._id,
+//         company: company.fullName || 'Unknown',
+//         totalShipment: company.totalShipment || 0,
+//         totalPendingShipment: company.totalPendingShipment || 0,
+//         totalInProcessShipment: company.totalInProcessShipment || 0,
+//         totalCompletedShipment: company.totalCompletedShipment || 0,
+//       }));
+//       setCompanies(transformedCompanies);
+//       setShowDropdown(null);
+//     } catch (error) {
+//       console.error('Error deleting company:', {
+//         message: error.message,
+//         status: error.response?.status,
+//         data: error.response?.data,
+//       });
+//       await Swal.fire({
+//         icon: 'error',
+//         title: 'Error',
+//         text: error.response?.data?.message || error.message || 'Failed to delete company. Please try again.',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//     }
+//   };
+
+//   const openEditPopup = async (role) => {
+//     console.log('Opening Edit popup for company:', role.company);
+//     try {
+//       const company = await apiService.getCompanyById(role.id);
+//       setCompanyData({
+//         mobileNumber: company.mobileNumber || '',
+//         email: company.email || '',
+//         fullName: company.fullName || '',
+//         fleetSizeDriver: company.fleetSizeDriver || '',
+//         fleetSizeTruck: company.fleetSizeTruck || '',
+//         packageId: company.packageId || '',
+//       });
+//       setEditPopup({ open: true, role });
+//     } catch (error) {
+//       console.error('Error fetching company data:', {
+//         message: error.message,
+//         status: error.response?.status,
+//         data: error.response?.data,
+//       });
+//       await Swal.fire({
+//         icon: 'error',
+//         title: 'Error',
+//         text: error.response?.data?.message || error.message || 'Failed to load company data. Please try again.',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//     }
+//   };
+
+//   const closeEditPopup = () => {
+//     console.log('Closing Edit popup');
+//     setEditPopup({ open: false, role: null });
+//   };
+
+//   const handleSaveChanges = async () => {
+//     const { mobileNumber, email, fullName, fleetSizeDriver, fleetSizeTruck, packageId } = companyData;
+//     if (!mobileNumber || !email || !fullName || !fleetSizeDriver || !fleetSizeTruck || !packageId) {
+//       await Swal.fire({
+//         icon: 'error',
+//         title: 'Validation Error',
+//         text: 'All fields are required. Please fill in all fields.',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//       return;
+//     }
+
+//     try {
+//       await apiService.updateCompany(editPopup.role.id, companyData);
+//       console.log('Company updated:', companyData);
+//       await Swal.fire({
+//         icon: 'success',
+//         title: 'Success',
+//         text: 'Company updated successfully!',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//       const companyResponse = await apiService.getCompany();
+//       const transformedCompanies = companyResponse.docs.map((company) => ({
+//         id: company._id,
+//         company: company.fullName || 'Unknown',
+//         totalShipment: company.totalShipment || 0,
+//         totalPendingShipment: company.totalPendingShipment || 0,
+//         totalInProcessShipment: company.totalInProcessShipment || 0,
+//         totalCompletedShipment: company.totalCompletedShipment || 0,
+//       }));
+//       setCompanies(transformedCompanies);
+//       closeEditPopup();
+//     } catch (error) {
+//       console.error('Error updating company:', {
+//         message: error.message,
+//         status: error.response?.status,
+//         data: error.response?.data,
+//       });
+//       await Swal.fire({
+//         icon: 'error',
+//         title: 'Error',
+//         text: error.response?.data?.message || error.message || 'Failed to update company. Please try again.',
+//         confirmButtonColor: '#6F1AFF',
+//         background: '#080625',
+//         color: '#fff',
+//       });
+//     }
+//   };
+
+//   const handleInputChange = (field, value) => {
+//     setCompanyData((prev) => ({ ...prev, [field]: value }));
+//   };
+
+//   return (
+//     <>
+//       <div className="flex justify-between mb-2">
+//         {/* <p className="text-[#fff] text-[22px] font-semibold py-3">Total Shipments</p>
+//         <button
+//           className="bg-[#6F1AFF] text-[#fff] text-[22px] font-semibold rounded-lg py-[16px] px-[22px]"
+//           onClick={openCreateRolePopup}
+//         >
+//           Add Company
+//         </button> */}
+//       </div>
+//       <div className="overflow-x-auto custom-scrollbar w-full rounded-xl mb-5 shadow-[0px_1.97px_6.47px_0px_#00000005,0px_9px_18.2px_0px_#00000008,0px_22.78px_48.83px_0px_#0000000A,0px_45px_112px_0px_#0000000F]">
+//         <table className="min-w-[800px] table-auto text-left w-full">
+//           <thead>
+//             <tr className="bg-[#131060] h-[40px] text-white text-sm border-b border-[#fff]">
+//               <th className="px-5">Company Name</th>
+//               <th className="px-5">Total Shipments</th>
+//               <th className="px-5">Pending Shipments</th>
+//               <th className="px-5">In-Process Shipments</th>
+//               <th className="px-5">Completed Shipments</th>
+//               <th className="px-5">Action</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {loading ? (
+//               <tr>
+//                 <td colSpan="6" className="text-center text-white py-4">
+//                   Loading companies...
+//                 </td>
+//               </tr>
+//             ) : error ? (
+//               <tr>
+//                 <td colSpan="6" className="text-center text-red-500 py-4">
+//                   {error}
+//                 </td>
+//               </tr>
+//             ) : companies.length === 0 ? (
+//               <tr>
+//                 <td colSpan="6" className="text-center text-white py-4">
+//                   No companies available
+//                 </td>
+//               </tr>
+//             ) : (
+//               companies.map((role, index) => (
+//                 <tr
+//                   key={role.id || index}
+//                   className={`bg-[#131060] text-white h-[90px] ${index !== companies.length - 1 ? 'border-b border-[#fff]' : ''}`}
+//                 >
+//                   <td className="px-5">{role.company}</td>
+//                   <td className="px-5">{role.totalShipment}</td>
+//                   <td className="px-5">{role.totalPendingShipment}</td>
+//                   <td className="px-5">{role.totalInProcessShipment}</td>
+//                   <td className="px-5">{role.totalCompletedShipment}</td>
+//                   <td className="px-5 relative">
+//                     <img
+//                       src="/tableAction.svg"
+//                       alt="Action"
+//                       className="w-5 h-5 cursor-pointer"
+//                       onClick={() => handleActionClick(index)}
+//                     />
+//                     {showDropdown === index && (
+//                       <div
+//                         className="absolute bg-[#0B0741] text-white border rounded-tl-[12px] rounded-tr-[4px] rounded-br-[12px] rounded-bl-[12px] z-50 w-[150px]"
+//                         style={{ top: '30px', right: '20px' }}
+//                       >
+//                         <div
+//                           className="px-4 py-2 border-b cursor-pointer hover:bg-[#1A1850] text-[16px]"
+//                           onClick={() => openEditPopup(role)}
+//                         >
+//                           Edit Company
+//                         </div>
+//                         <div
+//                           className="px-4 py-2 cursor-pointer hover:bg-[#1A1850] text-[16px]"
+//                           onClick={() => handleDelete(role.id)}
+//                         >
+//                           Delete Company
+//                         </div>
+//                       </div>
+//                     )}
+//                   </td>
+//                 </tr>
+//               ))
+//             )}
+//           </tbody>
+//         </table>
+//       </div>
+
+//       {createRolePopup && (
+//         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+//           <div
+//             className="text-white p-6 rounded-lg relative flex flex-col gap-[10px] overflow-y-auto hide-scrollbar custom-scrollbar"
+//             style={{
+//               width: '594px',
+//               maxHeight: '80vh',
+//               background: '#080625',
+//               border: '1px solid #FFFFFF',
+//               borderRadius: '16px',
+//               padding: '24px',
+//             }}
+//           >
+//             <div className="flex mb-6">
+//               <p className="text-[22px] font-semibold">Create Company</p>
+//               <button
+//                 className="absolute top-4 right-4 text-white text-xl"
+//                 onClick={closeCreateRolePopup}
+//               >
+//                 <img src="/Xicon.svg" alt="Close" className="w-6 h-6" />
+//               </button>
+//             </div>
+//             <OutlinedInput
+//               type="text"
+//               label="Company Name"
+//               placeholder="Enter Company Name"
+//               value={companyData.fullName}
+//               onChange={(e) => handleInputChange('fullName', e.target.value)}
+//               required
+//             />
+//             <OutlinedInput
+//               type="email"
+//               label="Email"
+//               placeholder="Enter Email"
+//               value={companyData.email}
+//               onChange={(e) => handleInputChange('email', e.target.value)}
+//               required
+//             />
+//             <OutlinedInput
+//               type="text"
+//               label="Mobile Number"
+//               placeholder="Enter Mobile Number"
+//               value={companyData.mobileNumber}
+//               onChange={(e) => handleInputChange('mobileNumber', e.target.value)}
+//               required
+//             />
+//             <OutlinedInput
+//               type="number"
+//               label="Fleet Size (Trucks)"
+//               placeholder="Enter Number of Trucks"
+//               value={companyData.fleetSizeTruck}
+//               onChange={(e) => handleInputChange('fleetSizeTruck', e.target.value)}
+//               required
+//             />
+//             <OutlinedInput
+//               type="number"
+//               label="Fleet Size (Drivers)"
+//               placeholder="Enter Number of Drivers"
+//               value={companyData.fleetSizeDriver}
+//               onChange={(e) => handleInputChange('fleetSizeDriver', e.target.value)}
+//               required
+//             />
+//             <OutlinedSelect
+//               label="Subscription Package"
+//               options={packages}
+//               value={companyData.packageId}
+//               onChange={(e) => handleInputChange('packageId', e.target.value)}
+//               required
+//             />
+//             <button
+//               className="bg-[#6F1AFF] text-[#fff] text-[18px] font-semibold rounded-lg py-[12px] px-[20px] mt-4"
+//               onClick={handleCreateCompany}
+//             >
+//               Save
+//             </button>
+//           </div>
+//         </div>
+//       )}
+
+//       {editPopup.open && (
+//         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+//           <div
+//             className="text-white p-6 rounded-lg relative flex flex-col gap-[10px] hide-scrollbar overflow-y-auto custom-scrollbar"
+//             style={{
+//               width: '594px',
+//               maxHeight: '80vh',
+//               background: '#080625',
+//               border: '1px solid #FFFFFF',
+//               borderRadius: '16px',
+//               padding: '24px',
+//             }}
+//           >
+//             <div className="flex mb-6">
+//               <p className="text-[22px] font-semibold">Edit Company</p>
+//               <button
+//                 className="absolute top-4 right-4 text-white text-xl"
+//                 onClick={closeEditPopup}
+//               >
+//                 <img src="/Xicon.svg" alt="Close" className="w-6 h-6" />
+//               </button>
+//             </div>
+//             <OutlinedInput
+//               type="text"
+//               label="Company Name"
+//               placeholder="Enter Company Name"
+//               value={companyData.fullName}
+//               onChange={(e) => handleInputChange('fullName', e.target.value)}
+//               required
+//             />
+//             <OutlinedInput
+//               type="email"
+//               label="Email"
+//               placeholder="Enter Email"
+//               value={companyData.email}
+//               onChange={(e) => handleInputChange('email', e.target.value)}
+//               required
+//             />
+//             <OutlinedInput
+//               type="text"
+//               label="Mobile Number"
+//               placeholder="Enter Mobile Number"
+//               value={companyData.mobileNumber}
+//               onChange={(e) => handleInputChange('mobileNumber', e.target.value)}
+//               required
+//             />
+//             <OutlinedInput
+//               type="number"
+//               label="Fleet Size (Trucks)"
+//               placeholder="Enter Number of Trucks"
+//               value={companyData.fleetSizeTruck}
+//               onChange={(e) => handleInputChange('fleetSizeTruck', e.target.value)}
+//               required
+//             />
+//             <OutlinedInput
+//               type="number"
+//               label="Fleet Size (Drivers)"
+//               placeholder="Enter Number of Drivers"
+//               value={companyData.fleetSizeDriver}
+//               onChange={(e) => handleInputChange('fleetSizeDriver', e.target.value)}
+//               required
+//             />
+//             <OutlinedSelect
+//               label="Subscription Package"
+//               options={packages}
+//               value={companyData.packageId}
+//               onChange={(e) => handleInputChange('packageId', e.target.value)}
+//               required
+//             />
+//             <button
+//               className="bg-[#6F1AFF] text-[#fff] text-[18px] font-semibold rounded-lg py-[12px] px-[20px] mt-4"
+//               onClick={handleSaveChanges}
+//             >
+//               Save Changes
+//             </button>
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   );
+// };
+
+// export default TotalShipmentsTable;
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import apiService from '../ApiController/ApiService'; // Adjust path if needed
@@ -448,6 +1007,10 @@ const TotalShipmentsTable = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -459,11 +1022,15 @@ const TotalShipmentsTable = () => {
             console.warn('getPackage API failed:', err);
             return [];
           }),
-          apiService.getCompany(),
+          apiService.getCompany({ page: currentPage, ac: true }),
         ]);
         console.log('Fetched packages:', packageData);
         console.log('Fetched companies:', companyResponse);
         setPackages(packageData);
+
+        if (!companyResponse || !Array.isArray(companyResponse.docs)) {
+          throw new Error('Invalid API response structure');
+        }
 
         const transformedCompanies = companyResponse.docs.map((company) => ({
           id: company._id,
@@ -474,6 +1041,9 @@ const TotalShipmentsTable = () => {
           totalCompletedShipment: company.totalCompletedShipment || 0,
         }));
         setCompanies(transformedCompanies);
+        setTotalPages(companyResponse.totalPages || 1);
+        setHasPrevPage(companyResponse.hasPrevPage || false);
+        setHasNextPage(companyResponse.hasNextPage || false);
       } catch (error) {
         const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch data. Please try again.';
         setError(errorMessage);
@@ -488,7 +1058,7 @@ const TotalShipmentsTable = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [currentPage]);
 
   const handleActionClick = (index) => {
     setShowDropdown((prev) => (prev === index ? null : index));
@@ -537,7 +1107,7 @@ const TotalShipmentsTable = () => {
         background: '#080625',
         color: '#fff',
       });
-      const companyResponse = await apiService.getCompany();
+      const companyResponse = await apiService.getCompany({ page: currentPage, ac: true });
       const transformedCompanies = companyResponse.docs.map((company) => ({
         id: company._id,
         company: company.fullName || 'Unknown',
@@ -547,6 +1117,9 @@ const TotalShipmentsTable = () => {
         totalCompletedShipment: company.totalCompletedShipment || 0,
       }));
       setCompanies(transformedCompanies);
+      setTotalPages(companyResponse.totalPages || 1);
+      setHasPrevPage(companyResponse.hasPrevPage || false);
+      setHasNextPage(companyResponse.hasNextPage || false);
       closeCreateRolePopup();
     } catch (error) {
       console.error('Error creating company:', {
@@ -577,7 +1150,7 @@ const TotalShipmentsTable = () => {
         background: '#080625',
         color: '#fff',
       });
-      const companyResponse = await apiService.getCompany();
+      const companyResponse = await apiService.getCompany({ page: currentPage, ac: true });
       const transformedCompanies = companyResponse.docs.map((company) => ({
         id: company._id,
         company: company.fullName || 'Unknown',
@@ -587,6 +1160,9 @@ const TotalShipmentsTable = () => {
         totalCompletedShipment: company.totalCompletedShipment || 0,
       }));
       setCompanies(transformedCompanies);
+      setTotalPages(companyResponse.totalPages || 1);
+      setHasPrevPage(companyResponse.hasPrevPage || false);
+      setHasNextPage(companyResponse.hasNextPage || false);
       setShowDropdown(null);
     } catch (error) {
       console.error('Error deleting company:', {
@@ -665,7 +1241,7 @@ const TotalShipmentsTable = () => {
         background: '#080625',
         color: '#fff',
       });
-      const companyResponse = await apiService.getCompany();
+      const companyResponse = await apiService.getCompany({ page: currentPage, ac: true });
       const transformedCompanies = companyResponse.docs.map((company) => ({
         id: company._id,
         company: company.fullName || 'Unknown',
@@ -675,6 +1251,9 @@ const TotalShipmentsTable = () => {
         totalCompletedShipment: company.totalCompletedShipment || 0,
       }));
       setCompanies(transformedCompanies);
+      setTotalPages(companyResponse.totalPages || 1);
+      setHasPrevPage(companyResponse.hasPrevPage || false);
+      setHasNextPage(companyResponse.hasNextPage || false);
       closeEditPopup();
     } catch (error) {
       console.error('Error updating company:', {
@@ -697,17 +1276,21 @@ const TotalShipmentsTable = () => {
     setCompanyData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <>
-      <div className="flex justify-between mb-2">
-        {/* <p className="text-[#fff] text-[22px] font-semibold py-3">Total Shipments</p>
+      {/* <div className="flex justify-between mb-2">
+        <p className="text-[#fff] text-[22px] font-semibold py-3">Total Shipments</p>
         <button
           className="bg-[#6F1AFF] text-[#fff] text-[22px] font-semibold rounded-lg py-[16px] px-[22px]"
           onClick={openCreateRolePopup}
         >
           Add Company
-        </button> */}
-      </div>
+        </button>
+      </div> */}
       <div className="overflow-x-auto custom-scrollbar w-full rounded-xl mb-5 shadow-[0px_1.97px_6.47px_0px_#00000005,0px_9px_18.2px_0px_#00000008,0px_22.78px_48.83px_0px_#0000000A,0px_45px_112px_0px_#0000000F]">
         <table className="min-w-[800px] table-auto text-left w-full">
           <thead>
@@ -782,6 +1365,27 @@ const TotalShipmentsTable = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center gap-4 mt-8">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={!hasPrevPage}
+          className={`px-4 py-2 rounded bg-[#1C1889] text-white ${!hasPrevPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#2a27b3]'}`}
+        >
+          Previous
+        </button>
+        <span className="text-[14px] text-white">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={!hasNextPage}
+          className={`px-4 py-2 rounded bg-[#1C1889] text-white ${!hasNextPage ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#2a27b3]'}`}
+        >
+          Next
+        </button>
       </div>
 
       {createRolePopup && (

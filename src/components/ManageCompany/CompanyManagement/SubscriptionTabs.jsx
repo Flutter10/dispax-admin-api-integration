@@ -1,6 +1,6 @@
 import React from 'react';
 
-const tabs = ["Plans"];
+const tabs = ["Plans","Renewable","Cancellation"];
 
 const TabSwitcher = ({ currentTab, setTab }) => {
   return (
