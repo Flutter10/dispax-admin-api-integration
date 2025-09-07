@@ -22,6 +22,22 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
+    getProfile: async () => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.get(`${API_URL}user/getProfile`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('getProfile API response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('getProfile API error:', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
   register: async (userData) => {
     try {
       const response = await axios.post(`${API_URL}admin/registration`, userData, {
@@ -180,16 +196,31 @@ const apiService = {
       throw error.response?.data || error.message;
     }
   },
-  getAllInTransitShipment: async () => {
+  // getAllInTransitShipment: async () => {
+  //   try {
+  //     const authToken = localStorage.getItem('authToken');
+  //     const response = await axios.get(`${API_URL}Admin/getAllInTransitShipment`, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${authToken}`,
+  //       },
+  //     });
+  //     return response.data.data.docs; // Return only the docs array
+  //   } catch (error) {
+  //     throw error.response?.data || error.message;
+  //   }
+  // },
+    getAllInTransitShipment: async (params) => {
     try {
-      const authToken = localStorage.getItem('authToken');
+      const authToken = localStorage.getItem("authToken");
       const response = await axios.get(`${API_URL}Admin/getAllInTransitShipment`, {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
         },
+        params,
       });
-      return response.data.data.docs; // Return only the docs array
+      return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
     }
@@ -773,6 +804,22 @@ const apiService = {
       return response.data.data;
     } catch (error) {
       console.error('API Error (getAllTruck):', error.response?.data || error.message);
+      throw error.response?.data || error.message;
+    }
+  },
+   markCompleteShipment: async (shipmentId) => {
+    try {
+      const authToken = localStorage.getItem('authToken');
+      const response = await axios.post(`${API_URL}Driver/markCompleteShipment/${shipmentId}`, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+      console.log('markCompleteShipment API response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('markCompleteShipment API error:', error.response?.data || error.message);
       throw error.response?.data || error.message;
     }
   },
