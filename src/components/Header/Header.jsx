@@ -40,7 +40,7 @@ const Header = () => {
       </div>
 
       {/* Notification */}
-      <NotificationDropdown/>
+      {/* <NotificationDropdown/> */}
     
 
       {/* Language Dropdown */}

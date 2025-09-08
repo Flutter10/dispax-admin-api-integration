@@ -95,23 +95,23 @@ const TruckManagement = () => {
       {!view && (
         <><div>
           <VehicleandHealthMaintanenceTable />
-          <div className="flex justify-between items-center mt-4">
+          {/* <div className="flex justify-between items-center mt-4">
             <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
             <CustomPagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage} />
-          </div>
+          </div> */}
         </div>
           <div className="">
             <TrackGpsTable />
-            <div className="flex justify-between items-center mt-4">
+            {/* <div className="flex justify-between items-center mt-4">
               <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
               <CustomPagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage} />
-            </div>
+            </div> */}
           </div>
         </>
       )}
