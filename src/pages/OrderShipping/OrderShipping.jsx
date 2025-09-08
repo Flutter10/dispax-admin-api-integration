@@ -41,7 +41,7 @@ const OrderShipping = () => {
       </div> */}
 
       {/* 4 */}
-      <div className="">
+      {/* <div className="">
         <DisputeResolution />
         <div className="flex justify-between items-center mt-4">
           <p className="text-[18px] text-[#FFFFFF]">Showing 6 out of 120 results</p>
@@ -51,7 +51,7 @@ const OrderShipping = () => {
             onPageChange={setCurrentPage}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

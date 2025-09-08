@@ -12,7 +12,7 @@ const options = [
   {
     type: 'active-trucks',
     title: 'Active Trucks',
-    value: '148 Trucks',
+    value: 'Trucks',
   },
   {
     type: 'driver-details',

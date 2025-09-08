@@ -510,7 +510,7 @@ const VehicleandHealthMaintanenceTable = () => {
                             <th className="px-5">Remarks</th>
                             <th className="px-5">Trailer Number</th>
                             <th className="px-5">Status</th>
-                            <th className="px-5">Action</th>
+                            {/* <th className="px-5">Action</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -531,7 +531,7 @@ const VehicleandHealthMaintanenceTable = () => {
                                          vehicle.aboveDefectsNeed ? 'Due Soon' : 'Over Due'}
                                     </span>
                                 </td>
-                                <td className="px-5 relative">
+                                {/* <td className="px-5 relative">
                                     <label className="flex gap-2 items-center cursor-pointer">
                                         <input
                                             type="checkbox"
@@ -574,7 +574,7 @@ const VehicleandHealthMaintanenceTable = () => {
                                         </span>
                                         <span className="text-white">Mark as Serviced</span>
                                     </label>
-                                </td>
+                                </td> */}
                             </tr>
                         ))}
                     </tbody>
